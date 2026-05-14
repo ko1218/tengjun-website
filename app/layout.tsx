@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   description:
     "提供雙北地區專業水電維修、抓漏、照明設備、衛浴換裝與商業空間工程。",
   verification: {
-    google: "4f4L5fEDxw5ocITyPPwikmHLICcrcs635vcTUs5adKU" },
+    google: "4f4L5fEDxw5ocITyPPwikmHLICcrcs635vcTUs5adKU",
   },
 };
 
