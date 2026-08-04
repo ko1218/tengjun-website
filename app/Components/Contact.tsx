@@ -1,77 +1,91 @@
+"use client";
+
+import { useState } from "react";
+import FormField from "./FormField";
+
+const API =
+  "https://script.google.com/macros/s/AKfycbzRtnD8ZI0S7KmZ4vMtsLFG54XChDS714QQKRmzS02Y8eybEPjscq_zUYvtkbyAtMNs/exec";
+
+const services = [
+  "居家水電維修",
+  "衛浴設備安裝",
+  "特殊抓漏工程",
+  "照明設備施工",
+  "商業空間工程",
+  "電力申請",
+];
+
 export default function Contact() {
+  const empty = {
+    name: "",
+    phone: "",
+    address: "",
+    service: services[0],
+    message: "",
+  };
+
+  const [form, setForm] = useState(empty);
+
+  const update = (k: keyof typeof form, v: string) =>
+    setForm({ ...form, [k]: v });
+
+  const send = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    await fetch(API, {
+      method: "POST",
+      body: JSON.stringify(form),
+    });
+
+    alert("送出成功！");
+    setForm(empty);
+  };
+
   return (
-    <section
-      id="contact"
-      className="mx-auto max-w-3xl px-6 py-24"
-    >
-      <div className="text-center">
-
-        <p className="text-sm tracking-[0.3em] text-[#8d7459]">
-          CONTACT
-        </p>
-
-        <h2 className="mt-4 text-4xl font-black text-[#40372f]">
-          免費估價
-        </h2>
-
-        <p className="mt-4 text-[#6f665d]">
-          填寫表單，我們將盡快與您聯絡。
-        </p>
-
+    <section id="contact" className="mx-auto max-w-3xl px-6 py-24">
+      <div className="mb-10 text-center">
+        <h2 className="text-4xl font-black">免費估價</h2>
+        <p className="mt-3 text-[#6f665d]">填寫資料，我們將盡快與您聯絡。</p>
       </div>
 
-      <div className="mt-12 rounded-3xl bg-[#ebe5dc] p-8">
-
-        <div className="grid gap-6">
-
-          <input
-            type="text"
-            placeholder="姓名"
-            className="rounded-xl border border-[#d8cec2] bg-white px-5 py-4 outline-none focus:border-[#8d7459]"
+      <form onSubmit={send} className="grid gap-6 rounded-3xl bg-[#ebe5dc] p-8">
+        {[
+          ["name", "姓名"],
+          ["phone", "電話"],
+          ["address", "地址"],
+        ].map(([key, label]) => (
+          <FormField
+            key={key}
+            placeholder={label}
+            value={form[key as keyof typeof form] as string}
+            onChange={(v) => update(key as keyof typeof form, v)}
           />
+        ))}
 
-          <input
-            type="tel"
-            placeholder="電話"
-            className="rounded-xl border border-[#d8cec2] bg-white px-5 py-4 outline-none focus:border-[#8d7459]"
-          />
+        <select
+          value={form.service}
+          onChange={(e) => update("service", e.target.value)}
+          className="rounded-xl border border-[#d8cec2] bg-white px-5 py-4"
+        >
+          {services.map((s) => (
+            <option key={s}>{s}</option>
+          ))}
+        </select>
 
-          <input
-            type="text"
-            placeholder="地址"
-            className="rounded-xl border border-[#d8cec2] bg-white px-5 py-4 outline-none focus:border-[#8d7459]"
-          />
+        <FormField
+          as="textarea"
+          placeholder="需求說明"
+          value={form.message}
+          onChange={(v) => update("message", v)}
+        />
 
-          <select
-            className="rounded-xl border border-[#d8cec2] bg-white px-5 py-4 outline-none focus:border-[#8d7459]"
-          >
-            <option>居家水電維修</option>
-            <option>衛浴設備安裝</option>
-            <option>特殊抓漏工程</option>
-            <option>照明設備施工</option>
-            <option>商業空間工程</option>
-            <option>電力申請</option>
-          </select>
-
-          <textarea
-            rows={5}
-            placeholder="請簡單描述您的需求..."
-            className="rounded-xl border border-[#d8cec2] bg-white px-5 py-4 outline-none focus:border-[#8d7459]"
-          />
-
-          <a
-            href="https://docs.google.com/forms/d/e/1FAIpQLSdiqsv7AdAp7xUfIpb2isFhJqy4TVy8qrXFnaWLJlTQL52RZg/viewform"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-2xl bg-[#8d7459] py-4 text-center font-semibold text-white transition hover:opacity-90"
-          >
-            前往填寫免費估價
-          </a>
-
-        </div>
-
-      </div>
-
+        <button
+          type="submit"
+          className="rounded-2xl bg-[#8d7459] py-4 font-semibold text-white hover:opacity-90"
+        >
+          送出免費估價
+        </button>
+      </form>
     </section>
   );
 }
