@@ -5,6 +5,7 @@ import Stats from "./Components/Stats";
 import Services from "./Components/Services";
 import Map from "./Components/Map";
 import Footer from "./Components/Footer";
+import FloatingButtons from "./Components/FloatingButtons";
 export default function Home() {
   const services = [
   {
@@ -54,6 +55,8 @@ export default function Home() {
       <Map />
 
       <Footer />
+
+      <FloatingButtons />
       
     </main>
   );
