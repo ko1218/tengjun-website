@@ -7,6 +7,8 @@ import {
   FaArrowUp,
 } from "react-icons/fa";
 
+import { FaLine } from "react-icons/fa6";
+
 export default function FloatingButtons() {
   const btn =
     "flex h-14 w-14 items-center justify-center rounded-full bg-[#8d7459] text-white shadow-lg transition duration-300 hover:scale-110 hover:bg-[#705b46]";
@@ -21,6 +23,16 @@ export default function FloatingButtons() {
       >
         <FaPhoneAlt size={20} />
       </a>
+
+      <a
+  href="https://lin.ee/8DFOFxX"
+  target="_blank"
+  rel="noopener noreferrer"
+  className={btn}
+  title="加入 LINE 官方帳號"
+>
+  <FaLine size={20} />
+</a>
 
       <a
         href="https://www.facebook.com/profile.php?id=61592791742605"
